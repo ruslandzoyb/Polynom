@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
+
+
 using System.Threading.Tasks;
 
 namespace Polynomial
@@ -14,10 +13,12 @@ namespace Polynomial
         private string variable;
         private string coefficient;
         private  string variable_type;
+        private string exponent;
+
       // private Dictionary<char, int> sign_coeff;
       // private Dictionary<char, int> var_expon;
         private Dictionary<Dictionary<char,int>,Dictionary<string,int>> polinom;
-        Regex regex;
+        
         public Polynom(string line)
         {
             if (string.IsNullOrWhiteSpace(line))
@@ -30,8 +31,8 @@ namespace Polynomial
 
         private void Parser()
         {
-           
-            List<int> list = new List<int>();
+
+            string list="";
             int i = 0;
             while (i<line.Length)
             {
@@ -49,9 +50,9 @@ namespace Polynomial
                 {
                     sign = '-';
                 }
-                else if (Int32.TryParse(str,out int  n))
+                else if (Int32.TryParse(str,out int n))
                 {
-                    list.Add(n);
+                    list += str;
 
                 }
                 
@@ -74,8 +75,13 @@ namespace Polynomial
                     
 
                 }
+                else if (Convert.ToChar(str) == '^')
+                {
+                    int j = i;
+                    exponent = list[++j].ToString();
+                }
 
-
+                ++i;
             }
 
         }

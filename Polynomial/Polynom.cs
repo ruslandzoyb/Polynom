@@ -19,11 +19,17 @@ namespace Polynomial
 
         // private Dictionary<char, int> sign_coeff;
         // private Dictionary<char, int> var_expon;
+        private int Length { get { return this.elements.Capacity; } }
+        private string Variable { get; set; }
+
         Dictionary<int, char> Signs = new Dictionary<int, char>();
         Dictionary<int, int> Coefficient = new Dictionary<int, int>();
         Dictionary<int, string> Variables = new Dictionary<int, string>();
         Dictionary<int, int> Exponents = new Dictionary<int, int>();
+        public Polynom()
+        {
 
+        }
         public Polynom(string line)
         {
             if (string.IsNullOrWhiteSpace(line))
@@ -94,6 +100,7 @@ namespace Polynomial
                         if (variable == string.Empty)
                         {
                             variable = (elements[j][i].ToString());
+                            Variable = variable;
                         }
                         else
                         {
@@ -123,8 +130,10 @@ namespace Polynomial
                             digit = "1";
 
                         }
+                        int dig= Convert.ToInt32(digit);
+                        dig = sign == plus ? dig : -dig;
                         Signs[j] = sign;
-                        Coefficient[j] = Convert.ToInt32(digit);
+                        Coefficient[j] = dig;
                         Variables[j] = variable;
                         Exponents[j] = ex;
                     }
@@ -138,31 +147,19 @@ namespace Polynomial
 
 
         }
+
+       
         public void Show()
         {
-            for (int i = 0; i < elements.Count; i++)
-            {
-                Console.WriteLine(elements[i]);
-              
-            }
-            Console.WriteLine(elements.Count);
-
             foreach (var item in Signs)
             {
                 Console.WriteLine(item);
             }
-            foreach (var item in Coefficient)
-            {
-                Console.WriteLine(item);
-            }
-            foreach (var item in Variables)
-            {
-                Console.WriteLine(item);
-            }
-            foreach (var item in Exponents)
-            {
-                Console.WriteLine(item);
-            }
+
+            
+              
+            
+
         }
 
     }

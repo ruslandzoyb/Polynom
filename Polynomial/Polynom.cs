@@ -10,13 +10,12 @@ namespace Polynomial
     class Polynom
     {
         private string line;
-        private char sign;
-        private string variable;
-        private string coefficient;
-        private string variable_type;
-        private string exponent;
-        const string plus = "+";
-        const string minus = "-";
+        const char plus = '+';
+        const char minus = '-';
+        char sign;
+        string[] positive;
+        string[] negative;
+        List<string> elements = new List<string>();
 
 
         // private Dictionary<char, int> sign_coeff;
@@ -38,105 +37,56 @@ namespace Polynomial
 
         private void Parser()
         {
-
-            string digit = string.Empty;
             int i = 0;
-            int k=-1;
-            while (i < line.Length)
+            int position=0;
+            while (i<line.Length)
             {
-                string str = line[i].ToString();
-                if (string.IsNullOrEmpty(str) || str == plus)
+                if (i == line.Length - 1)
                 {
-                    sign = '+';
-                    if (str == plus)
-                    {
-                        ++k;
-
-                        Add(sign, digit, variable, exponent,k);
-                    }
-
-                }
-                else if  (str ==minus )
-                {
-                    sign = '-';
-                }
-                else if (char.IsDigit(Convert.ToChar(str))&&line[i-1]!='^')
-                {
-                    digit += str;
+                    elements.Add(line.Substring(position, line.Length-position ));
 
                 }
 
-                else if (char.IsLetter(Convert.ToChar(str)))
+                if (line[i]=='+'||line[i]=='-')
                 {
-                    if (string.IsNullOrEmpty(variable_type))
+                    
+                    if (i>0)
                     {
-                        variable_type = str;
-                        variable = str;
-
-                    }
-                    if (variable_type == str)
-                    {
-                        variable = str;
-                    }
-                    else if (variable_type != str)
-                    {
-                        throw new Exception("Введенная переменная не является идентичной попередней");
-                    }
-
-
-
-                }
-                else if (Convert.ToChar(str) == '^')
-                {
-                    // TODO: Проверка инкремента 
-                    int j = i;
-                    if (char.IsDigit(line[++j]))
-                    {
-                        exponent = line[j].ToString();
-                    }
-                    else
-                    {
-                        throw new Exception("Степень должна быть числом");
+                        
+                        elements.Add(line.Substring(position, i-position));
+                       
+                        
                     }
                     
-                }
+                    position = i;
 
+                }
+                if (char.IsWhiteSpace(line[i]))
+                {
+                    throw new Exception("Первый пробел");
+                }
+                
                 ++i;
             }
 
+
         }
-        private void Add(string variable, string exponent,int k, char sign = '', string list = "1")
-        {
-
-            Signs[k] = sign;
-            Coefficient[k] = Convert.ToInt32(list);
-            Variables[k] = variable;
-            Exponents[k] = Convert.ToInt32(exponent);
-
-           
-            
-        }
-
         public void Show()
         {
-            foreach (var item in Signs)
+            for (int i = 0; i < elements.Count; i++)
             {
-                Console.WriteLine(item);
+                Console.WriteLine(elements[i]);
+              
             }
-            foreach (var item in Coefficient)
-            {
-                Console.WriteLine(item);
-            }
-
-            
+            Console.WriteLine(elements.Count);
         }
-        
-
-
-
-
 
     }
+      
 
-    }
 
+}
+
+
+
+   

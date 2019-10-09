@@ -7,12 +7,23 @@ namespace Polynomial
     {
         static void Main(string[] args)
         {
+            try
+            {
+                Polynom polynom = new Polynom("-x^2-3x-4");
+                polynom.Show();
+            }
+            catch (Exception)
+            {
 
-            Polynom polynom = new Polynom("-x^2-3x-4");
-             polynom.Show();
+                throw;
+            }
+
+            finally {
+                Console.ReadKey();
+            }
 
           
-            Console.ReadKey();
+            
         }
     }
 }

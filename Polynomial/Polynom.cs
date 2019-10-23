@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
 
 using System.Threading.Tasks;
 
 namespace Polynomial
 {
-    class Polynom
+    class Polynom : IComparable
     {
         private string line;
         const char plus = '+';
@@ -19,13 +19,14 @@ namespace Polynomial
 
         // private Dictionary<char, int> sign_coeff;
         // private Dictionary<char, int> var_expon;
-        private int Length { get { return this.elements.Capacity; } }
-        private string Variable { get; set; }
+        public int Length { get { return this.elements.Capacity; } }
+        public string Variable { get; set; }
+        public int Max { get; private set; }
 
-        Dictionary<int, char> Signs = new Dictionary<int, char>();
-        Dictionary<int, int> Coefficient = new Dictionary<int, int>();
-        Dictionary<int, string> Variables = new Dictionary<int, string>();
-        Dictionary<int, int> Exponents = new Dictionary<int, int>();
+      //  Dictionary<int, char> Signs = new Dictionary<int, char>();
+       public Dictionary<int, int> Coefficient = new Dictionary<int, int>();
+       public Dictionary<int, string> Variables = new Dictionary<int, string>();
+       public Dictionary<int, int> Exponents = new Dictionary<int, int>();
         public Polynom()
         {
 
@@ -132,7 +133,7 @@ namespace Polynomial
                         }
                         int dig= Convert.ToInt32(digit);
                         dig = sign == plus ? dig : -dig;
-                        Signs[j] = sign;
+                        //Signs[j] = sign;
                         Coefficient[j] = dig;
                         Variables[j] = variable;
                         Exponents[j] = ex;
@@ -145,23 +146,46 @@ namespace Polynomial
             }
 
 
+            Max=Exponents.Values.Max();
 
         }
 
        
         public void Show()
         {
-            foreach (var item in Signs)
+            int max;
+            
+            foreach (var item in Coefficient)
             {
-                Console.WriteLine(item);
+                Console.WriteLine($"Coefficient {item} ");
             }
+            foreach (var item in Variables)
+            {
+                Console.WriteLine($"Variable {item} ");
+            }
+            foreach (var item in Exponents)
+            {
+                
+                Console.WriteLine($"Exponent  {item} ");
 
-            
-              
-            
 
+            }
+          
+
+
+           // Console.WriteLine(max);
+           
         }
 
+        public int CompareTo(object obj)
+        {
+            if (obj is Polynom polynom)
+            {
+                int max;
+               return max = this.Max > polynom.Max ? Max : polynom.Max;
+            }
+            throw new NotImplementedException();
+        }
     }
       
 
